@@ -1,0 +1,287 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 94%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 94%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 94%;
+    --primary: 240 24% 87%;
+    --primary-foreground: 264 33% 16%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 94%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 62%;
+    --accent: 264 33% 16%;
+    --accent-foreground: 240 24% 87%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 100% / 0.12;
+    --input: 0 0% 100% / 0.16;
+    --ring: 240 24% 87%;
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    background: #141414;
+    color: #f0f0f0;
+    font-family: system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: #d1d0ea;
+    color: #1b1b1b;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ffffff26;
+    border-radius: 9999px;
+    border: 2px solid #141414;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ffffff40;
+  }
+}
+
+@layer components {
+  /* 等宽小标签 + 方块前缀（■ LABEL） */
+  .mono-label {
+    font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f0f0f0b3;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .mono-label::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background: #d1d0ea;
+    flex: none;
+  }
+
+  /* 胶囊按钮：填充 / 描边两种 */
+  .pill-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium transition-all duration-150 select-none;
+    padding: 8px 20px;
+  }
+  .pill-btn-fill {
+    background: #d1d0ea;
+    color: #1b1b1b;
+  }
+  .pill-btn-fill:hover {
+    background: #e4e3f6;
+  }
+  .pill-btn-outline {
+    border: 1px solid #ffffff2e;
+    color: #f0f0f0;
+    background: transparent;
+  }
+  .pill-btn-outline:hover {
+    background: color-mix(in srgb, #f0f0f0 7%, transparent);
+    border-color: #ffffff52;
+  }
+  .pill-btn:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* 表单控件 */
+  .field-input {
+    @apply w-full rounded-lg px-3 py-2 text-sm outline-none transition-colors;
+    background: #ffffff0d;
+    border: 1px solid #ffffff1f;
+    color: #f0f0f0;
+  }
+  .field-input:focus {
+    border-color: #d1d0ea88;
+    background: #ffffff12;
+  }
+  .field-input::placeholder {
+    color: #f0f0f059;
+  }
+  select.field-input option {
+    background: #1e1e1e;
+    color: #f0f0f0;
+  }
+
+  /* 小说正文（播放器） */
+  .novel-text {
+    font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  }
+
+  /* 打字机光标 */
+  .type-caret::after {
+    content: '▍';
+    color: #d1d0ea;
+    animation: caret-blink 0.9s steps(1) infinite;
+  }
+
+  /* 舞台淡入 */
+  .stage-fade {
+    animation: stage-in 0.45s ease-out both;
+  }
+
+  /* 对白推进提示 */
+  .advance-hint {
+    animation: advance-bob 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+@keyframes stage-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes advance-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(3px); opacity: 0.4; }
+}
+
+/* ============ 演出效果 ============ */
+
+/* 爆炸抖动：整屏剧烈晃动 */
+@keyframes vn-shake {
+  0%, 100% { transform: translate(0, 0); }
+  8% { transform: translate(-14px, 8px); }
+  16% { transform: translate(12px, -10px); }
+  26% { transform: translate(-10px, -6px); }
+  36% { transform: translate(9px, 7px); }
+  48% { transform: translate(-7px, 4px); }
+  60% { transform: translate(5px, -4px); }
+  74% { transform: translate(-3px, 2px); }
+  88% { transform: translate(2px, -1px); }
+}
+.vn-shake {
+  animation: vn-shake 0.6s linear both;
+}
+/* 碰撞瞬间的震动（延迟到接触时发生） */
+.vn-shake-impact {
+  animation: vn-shake 0.5s linear both;
+  animation-delay: 0.38s;
+}
+
+/* 白橙闪光 */
+@keyframes vn-flash {
+  0% { opacity: 0; }
+  7% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+.vn-flash {
+  animation: vn-flash 0.7s ease-out both;
+}
+.vn-flash-impact {
+  animation: vn-flash 0.75s ease-out both;
+  animation-delay: 0.36s;
+}
+
+/* 剧烈抖动：更大幅度 + 画面倾斜 + 更久持续，适合地震/崩塌/大爆炸 */
+@keyframes vn-shake-hard {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  6% { transform: translate(-26px, 14px) rotate(-1.6deg); }
+  14% { transform: translate(24px, -18px) rotate(1.4deg); }
+  24% { transform: translate(-22px, 10px) rotate(-1.2deg); }
+  34% { transform: translate(20px, 14px) rotate(1deg); }
+  46% { transform: translate(-16px, -12px) rotate(-0.8deg); }
+  58% { transform: translate(14px, 8px) rotate(0.6deg); }
+  70% { transform: translate(-10px, -6px) rotate(-0.4deg); }
+  82% { transform: translate(6px, 4px) rotate(0.2deg); }
+  92% { transform: translate(-3px, -2px) rotate(-0.1deg); }
+}
+.vn-shake-hard {
+  animation: vn-shake-hard 1.15s linear both;
+}
+
+/* 剧烈抖动的双重闪光 */
+@keyframes vn-flash-hard {
+  0% { opacity: 0; }
+  5% { opacity: 0.95; }
+  22% { opacity: 0.15; }
+  38% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+.vn-flash-hard {
+  animation: vn-flash-hard 1s ease-out both;
+}
+
+/* 战斗碰撞：立绘冲刺 → 接触 → 弹回 */
+@keyframes lunge-r-far {
+  0% { transform: translateX(0); }
+  42% { transform: translateX(24vw); }
+  54% { transform: translateX(21vw); }
+  100% { transform: translateX(0); }
+}
+@keyframes lunge-l-far {
+  0% { transform: translateX(0); }
+  42% { transform: translateX(-24vw); }
+  54% { transform: translateX(-21vw); }
+  100% { transform: translateX(0); }
+}
+@keyframes lunge-r-near {
+  0% { transform: translateX(0); }
+  42% { transform: translateX(13vw); }
+  54% { transform: translateX(11vw); }
+  100% { transform: translateX(0); }
+}
+@keyframes lunge-l-near {
+  0% { transform: translateX(0); }
+  42% { transform: translateX(-13vw); }
+  54% { transform: translateX(-11vw); }
+  100% { transform: translateX(0); }
+}
+.lunge-r-far { animation: lunge-r-far 1.1s cubic-bezier(0.3, 0, 0.4, 1) both; }
+.lunge-l-far { animation: lunge-l-far 1.1s cubic-bezier(0.3, 0, 0.4, 1) both; }
+.lunge-r-near { animation: lunge-r-near 1.1s cubic-bezier(0.3, 0, 0.4, 1) both; }
+.lunge-l-near { animation: lunge-l-near 1.1s cubic-bezier(0.3, 0, 0.4, 1) both; }
+
+/* 角色下场：淡出并下沉 */
+@keyframes vn-fadeout {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(14px); }
+}
+.vn-fadeout {
+  animation: vn-fadeout 0.4s ease-in both;
+}
+
+/* 角色上场：淡入并上浮 */
+@keyframes vn-fadein {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.vn-fadein {
+  animation: vn-fadein 0.45s ease-out both;
+}
+
+/* 角色走位：从原站位（--dx，vw 单位）滑动到新站位 */
+@keyframes vn-move {
+  from { transform: translateX(var(--dx, 0)); }
+  to { transform: translateX(0); }
+}
+.vn-move {
+  animation: vn-move 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+}
